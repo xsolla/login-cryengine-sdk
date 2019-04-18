@@ -1,0 +1,32 @@
+{
+	"version": 3,
+	"type": "",
+	"info": {
+		"name": "XsollaLogin",
+		"guid": "ead46aee-4cd0-a289-8cfc-2a85706e4e2d"
+	},
+	"content": {
+		"assets": [ "" ],
+		"code": [ "Code" ],
+		"libs": [
+			{
+				"name": "XsollaLogin",
+				"shared": { "any": "", "win_x64": "", "win_x86": "" }
+			}
+		]
+	},
+	"require": {
+		"engine": "engine-5.5",
+		"plugins": [
+			{
+				"type": "EPluginType::Native",
+				"path": "CryGamePlatform",
+				"platforms": [ "PS4" ]
+			}
+		]
+	},
+	"console_variables": [
+		{ "name": "sys_target_platforms", "value": "pc,ps4,xboxone,linux" }
+	],
+	"console_commands": [ ]
+}

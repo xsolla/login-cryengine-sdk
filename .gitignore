@@ -1,0 +1,7 @@
+# Temporary directories.
+/solutions/*
+/bin/*
+/SDKs/*
+
+# Temporary files
+/*.log

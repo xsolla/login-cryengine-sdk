@@ -15,7 +15,7 @@ namespace Xsolla
 
 			REGISTER_CVAR2("xl_login_http_timeout", &m_http_timeout, 5, VF_NULL, "Http timeout in seconds");
 			REGISTER_CVAR2("xl_login_log_level", &m_log_level, 0, VF_CHEAT | VF_INVISIBLE, "Log level (0-1)");
-			REGISTER_CVAR2("xl_login_storage_type", &m_storageType, 0, VF_CHEAT | VF_NULL, "Storage type (0 - Xsolla, 1 - Custom)");
+			REGISTER_CVAR2("xl_login_storage_type", &m_storageType, 0, VF_CHEAT | VF_INVISIBLE, "Storage type (0 - Xsolla, 1 - Custom)");
 		}
 
 		void CCvars::Unregister()

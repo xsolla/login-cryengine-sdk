@@ -1,0 +1,45 @@
+<UIElements name="UIElements">
+
+	<UIElement name="XsollaLoginUI" mouseevents="1" keyevents="1" cursor="1" eventsExclusive ="1">
+
+		<GFx file="UI_AuthPage.gfx" layer="1">
+			<Constraints>
+				<Align mode="dynamic" valign="center" halign="center" scale="1" max="0"/>
+			</Constraints>
+		</GFx>
+		
+		<functions>
+			<function name="ShowErrorBox" funcname="ShowErrorBox" desc="">
+				<param name="Error" desc="" type="string"/>
+			</function>
+			
+			<function name="HideErrorBox" funcname="HideErrorBox" desc=""/>
+			
+			<function name="ShowSuccessBox" funcname="ShowSuccessBox" desc="">
+				<param name="Success" desc="" type="string"/>
+			</function>
+			
+			<function name="HideSuccessBox" funcname="HideSuccessBox" desc=""/>
+		</functions>
+
+		<events>
+	
+			<event name="OnLoginButton" fscommand="OnLoginButton" desc="">
+				<param name="Username" desc="" type="string"/>
+				<param name="Password" desc="" type="string"/>
+				<param name="RememberMe" desc="" type="bool"/>
+			</event>
+			
+			<event name="OnCreateButton" fscommand="OnCreateButton" desc="">
+				<param name="Username" desc="" type="string"/>
+				<param name="Password" desc="" type="string"/>
+				<param name="EMail" desc="" type="string"/>
+			</event>
+			
+			<event name="OnRecoverButton" fscommand="OnRecoverButton" desc="">
+				<param name="Username" desc="" type="string"/>
+			</event>
+		</events>
+	</UIElement>
+	
+</UIElements>

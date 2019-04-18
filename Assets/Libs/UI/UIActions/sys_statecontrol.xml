@@ -1,0 +1,89 @@
+<Graph Description="" Group="" enabled="1" MultiPlayer="ClientServer">
+ <Nodes>
+  <Node Id="1" Class="UI:Display:Display" pos="-1206,450,0">
+   <Inputs uiElements_Element="XsollaLoginUI" instanceID="-1"/>
+  </Node>
+  <Node Id="3" Class="UI:Events:System:OnSystemStarted" pos="-1602,486,0">
+   <Inputs Port="-1" Idx=""/>
+  </Node>
+  <Node Id="14" Class="UI:Events:XsollaLoginUI:OnLoginButton" pos="-612,126,0">
+   <Inputs instanceID="-1" Port="-1" Idx=""/>
+  </Node>
+  <Node Id="15" Class="UI:Events:XsollaLoginUI:OnCreateButton" pos="-612,468,0">
+   <Inputs instanceID="-1" Port="-1" Idx=""/>
+  </Node>
+  <Node Id="16" Class="UI:Events:XsollaLoginUI:OnRecoverButton" pos="-612,792,0">
+   <Inputs instanceID="-1" Port="-1" Idx=""/>
+  </Node>
+  <Node Id="17" Class="Xsolla:Login:Authorization" pos="-252,126,0">
+   <Inputs Username="" Password="" RememberMe="0"/>
+  </Node>
+  <Node Id="18" Class="Xsolla:Login:Registration" pos="-270,468,0">
+   <Inputs Username="" Password="" EMail=""/>
+  </Node>
+  <Node Id="23" Class="Xsolla:Login:RecoveryPassword" pos="-270,792,0">
+   <Inputs Username=""/>
+  </Node>
+  <Node Id="24" Class="UI:Functions:XsollaLoginUI:ShowErrorBox" pos="90,198,0">
+   <Inputs instanceID="-1" Error=""/>
+  </Node>
+  <Node Id="25" Class="UI:Functions:XsollaLoginUI:ShowSuccessBox" pos="90,108,0">
+   <Inputs instanceID="-1" Success="@ui_auth_complete"/>
+  </Node>
+  <Node Id="26" Class="UI:Functions:XsollaLoginUI:ShowErrorBox" pos="36,558,0">
+   <Inputs instanceID="-1" Error=""/>
+  </Node>
+  <Node Id="27" Class="UI:Functions:XsollaLoginUI:ShowSuccessBox" pos="36,468,0">
+   <Inputs instanceID="-1" Success="@ui_reg_complete"/>
+  </Node>
+  <Node Id="28" Name="Authorization" Class="_commentbox" pos="-630,16.223488,0">
+   <Inputs TextSize="1" Color="1,1,1" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="1062" Height="234"/>
+   <NodeSize Width="1062" Height="307.77649"/>
+  </Node>
+  <Node Id="29" Name="Registration" Class="_commentbox" pos="-630,376.22345,0">
+   <Inputs TextSize="1" Color="1,1,1" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="1026" Height="216"/>
+   <NodeSize Width="1026" Height="289.77649"/>
+  </Node>
+  <Node Id="30" Class="UI:Functions:XsollaLoginUI:ShowSuccessBox" pos="54,792,0">
+   <Inputs instanceID="-1" Success="@ui_recovery_complete"/>
+  </Node>
+  <Node Id="31" Class="UI:Functions:XsollaLoginUI:ShowErrorBox" pos="54,882,0">
+   <Inputs instanceID="-1" Error=""/>
+  </Node>
+  <Node Id="32" Name="Recovery_password" Class="_commentbox" pos="-630,692.74036,0">
+   <Inputs TextSize="1" Color="1,1,1" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="1062" Height="234"/>
+   <NodeSize Width="1062" Height="307.77649"/>
+  </Node>
+  <Node Id="33" Name="When_system_started_-_show_UI" Class="_commentbox" pos="-1620,333.00336,0">
+   <Inputs TextSize="1" Color="1,1,1" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="792" Height="288"/>
+   <NodeSize Width="792" Height="361.77649"/>
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="1" nodeOut="3" portIn="show" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="14" portIn="Password" portOut="Password" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="14" portIn="RememberMe" portOut="RememberMe" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="14" portIn="Username" portOut="Username" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="14" portIn="Auth" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="18" nodeOut="15" portIn="EMail" portOut="EMail" enabled="1"/>
+  <Edge nodeIn="18" nodeOut="15" portIn="Password" portOut="Password" enabled="1"/>
+  <Edge nodeIn="18" nodeOut="15" portIn="Username" portOut="Username" enabled="1"/>
+  <Edge nodeIn="18" nodeOut="15" portIn="Registration" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="23" nodeOut="16" portIn="Username" portOut="Username" enabled="1"/>
+  <Edge nodeIn="23" nodeOut="16" portIn="Recovery" portOut="onEvent" enabled="1"/>
+  <Edge nodeIn="24" nodeOut="17" portIn="Call" portOut="AuthError" enabled="1"/>
+  <Edge nodeIn="24" nodeOut="17" portIn="Error" portOut="AuthError" enabled="1"/>
+  <Edge nodeIn="25" nodeOut="17" portIn="Call" portOut="AuthComplete" enabled="1"/>
+  <Edge nodeIn="26" nodeOut="18" portIn="Call" portOut="RegError" enabled="1"/>
+  <Edge nodeIn="26" nodeOut="18" portIn="Error" portOut="RegError" enabled="1"/>
+  <Edge nodeIn="27" nodeOut="18" portIn="Call" portOut="RegComplete" enabled="1"/>
+  <Edge nodeIn="30" nodeOut="23" portIn="Call" portOut="RecoveryComplete" enabled="1"/>
+  <Edge nodeIn="31" nodeOut="23" portIn="Call" portOut="RecoveryError" enabled="1"/>
+  <Edge nodeIn="31" nodeOut="23" portIn="Error" portOut="RecoveryError" enabled="1"/>
+ </Edges>
+ <GraphTokens />
+</Graph>

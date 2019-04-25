@@ -16,6 +16,7 @@
 #include "CVars.h"
 
 #define TITLE "[Xsolla-Login] "
+#define SDK_VERSION "0.1"
 
 #if !defined (_RELEASE) && !defined (CRY_IS_MONOLITHIC_BUILD)
 #define DEBUG_LOGGING 1 

@@ -12,18 +12,6 @@ using namespace web;
 using namespace web::http;
 using namespace web::http::client;
 
-string_t str_convert(const std::string& str)
-{
-#if _WIN32
-	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
-	std::wstring wstrTo(size_needed, 0);
-	MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], size_needed);
-	return wstrTo;
-#else 
-	TODO("Make str_convert() for POSIX platforms");
-#endif 
-}
-
 namespace Xsolla
 {
 	namespace Login
@@ -42,20 +30,31 @@ namespace Xsolla
 			}
 
 			uri_builder builder(apiUrlStr);
-			builder.append_query(U("projectId"), str_convert(g_pCVars->m_pProjectID->GetString()));
-			builder.append_query(U("login_url"), str_convert(g_pCVars->m_pCallbackURL->GetString()));
+			builder.append_query(U("projectId"), conversions::to_string_t(g_pCVars->m_pProjectID->GetString()));
+			builder.append_query(U("login_url"), conversions::to_string_t(g_pCVars->m_pCallbackURL->GetString()));
 
 			http_client_config config;
 			config.set_timeout(std::chrono::seconds(g_pCVars->m_http_timeout));
 
 			http_client client(builder.to_uri(), config);
 
+			char sProductVersion[128];
+			gEnv->pSystem->GetProductVersion().ToString(sProductVersion);
+
 			json::value postData;
-			postData[U("username")] = json::value::string(str_convert(username));
-			postData[U("password")] = json::value::string(str_convert(password));
+			postData[U("username")] = json::value::string(conversions::to_string_t(username));
+			postData[U("password")] = json::value::string(conversions::to_string_t(password));
 			postData[U("remember_me")] = json::value::boolean(rememberMe);
 
-			auto task = client.request(methods::POST, U(""), postData.serialize().c_str(), U("application/json")).then([=](http_response response)
+			http_request msg(methods::POST);
+			msg.set_request_uri(conversions::to_string_t(U("")));
+			msg.set_body(postData.serialize().c_str(), U("application/json"));
+			msg.headers().add(U("engine"), U("cryengine"));
+			msg.headers().add(U("engine_v"), conversions::to_string_t(sProductVersion));
+			msg.headers().add(U("sdk"), U("login"));
+			msg.headers().add(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
+
+			auto task = client.request(msg).then([=](http_response response)
 			{
 				Callback_Authorization(response);	
 			});
@@ -75,20 +74,31 @@ namespace Xsolla
 			}
 
 			uri_builder builder(apiUrlStr);
-			builder.append_query(U("projectId"), str_convert(g_pCVars->m_pProjectID->GetString()));
-			builder.append_query(U("login_url"), str_convert(g_pCVars->m_pCallbackURL->GetString()));
+			builder.append_query(U("projectId"), conversions::to_string_t(g_pCVars->m_pProjectID->GetString()));
+			builder.append_query(U("login_url"), conversions::to_string_t(g_pCVars->m_pCallbackURL->GetString()));
 
 			http_client_config config;
 			config.set_timeout(std::chrono::seconds(g_pCVars->m_http_timeout));
 
 			http_client client(builder.to_uri(), config);
 
-			json::value postData;
-			postData[U("username")] = json::value::string(str_convert(username));
-			postData[U("password")] = json::value::string(str_convert(password));
-			postData[U("email")] = json::value::string(str_convert(email));
+			char sProductVersion[128];
+			gEnv->pSystem->GetProductVersion().ToString(sProductVersion);
 
-			auto task = client.request(methods::POST, U(""), postData.serialize().c_str(), U("application/json")).then([=](http_response response)
+			json::value postData;
+			postData[U("username")] = json::value::string(conversions::to_string_t(username));
+			postData[U("password")] = json::value::string(conversions::to_string_t(password));
+			postData[U("email")] = json::value::string(conversions::to_string_t(email));
+
+			http_request msg(methods::POST);
+			msg.set_request_uri(conversions::to_string_t(U("")));
+			msg.set_body(postData.serialize().c_str(), U("application/json"));
+			msg.headers().add(U("engine"), U("cryengine"));
+			msg.headers().add(U("engine_v"), conversions::to_string_t(sProductVersion));
+			msg.headers().add(U("sdk"), U("login"));
+			msg.headers().add(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
+
+			auto task = client.request(msg).then([=](http_response response)
 			{
 				Callback_Registration(response);
 			});
@@ -108,8 +118,11 @@ namespace Xsolla
 			}
 
 			uri_builder builder(apiUrlStr);
-			builder.append_query(U("projectId"), str_convert(g_pCVars->m_pProjectID->GetString()));
-			builder.append_query(U("login_url"), str_convert(g_pCVars->m_pCallbackURL->GetString()));
+			builder.append_query(U("projectId"), conversions::to_string_t(g_pCVars->m_pProjectID->GetString()));
+			builder.append_query(U("login_url"), conversions::to_string_t(g_pCVars->m_pCallbackURL->GetString()));
+
+			char sProductVersion[128];
+			gEnv->pSystem->GetProductVersion().ToString(sProductVersion);
 
 			http_client_config config;
 			config.set_timeout(std::chrono::seconds(g_pCVars->m_http_timeout));
@@ -117,9 +130,17 @@ namespace Xsolla
 			http_client client(builder.to_uri(), config);
 
 			json::value postData;
-			postData[U("username")] = json::value::string(str_convert(username));
+			postData[U("username")] = json::value::string(conversions::to_string_t(username));
 
-			auto task = client.request(methods::POST, U(""), postData.serialize().c_str(), U("application/json")).then([=](http_response response)
+			http_request msg(methods::POST);
+			msg.set_request_uri(conversions::to_string_t(U("")));
+			msg.set_body(postData.serialize().c_str(), U("application/json"));
+			msg.headers().add(U("engine"), U("cryengine"));
+			msg.headers().add(U("engine_v"), conversions::to_string_t(sProductVersion));
+			msg.headers().add(U("sdk"), U("login"));
+			msg.headers().add(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
+
+			auto task = client.request(msg).then([=](http_response response)
 			{
 				Callback_RecoveryPassword(response);
 			});

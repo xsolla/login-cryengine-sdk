@@ -45,14 +45,20 @@ namespace Xsolla
 			postData[U("username")] = json::value::string(conversions::to_string_t(username));
 			postData[U("password")] = json::value::string(conversions::to_string_t(password));
 			postData[U("remember_me")] = json::value::boolean(rememberMe);
+			// Not best way, but used now. Need be replaced by headers later.
+			postData[U("engine")] = json::value::string(U("cryengine"));
+			postData[U("engine_v")] = json::value::string(conversions::to_string_t(sProductVersion));
+			postData[U("sdk")] = json::value::string(U("login"));
+			postData[U("sdk_v")] = json::value::string(conversions::to_string_t(SDK_VERSION));
 
 			http_request msg(methods::POST);
 			msg.set_request_uri(conversions::to_string_t(U("")));
 			msg.set_body(postData.serialize().c_str(), U("application/json"));
-			msg.headers().add(U("engine"), U("cryengine"));
-			msg.headers().add(U("engine_v"), conversions::to_string_t(sProductVersion));
-			msg.headers().add(U("sdk"), U("login"));
-			msg.headers().add(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
+			// Not used now, but can be used later
+			//msg.headers().add(U("engine"), U("cryengine"));
+			//msg.headers().add(U("engine_v"), conversions::to_string_t(sProductVersion));
+			//msg.headers().add(U("sdk"), U("login"));
+			//msg.headers().add(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
 
 			auto task = client.request(msg).then([=](http_response response)
 			{
@@ -90,13 +96,18 @@ namespace Xsolla
 			postData[U("password")] = json::value::string(conversions::to_string_t(password));
 			postData[U("email")] = json::value::string(conversions::to_string_t(email));
 
+			postData[U("engine")] = json::value::string(U("cryengine"));
+			postData[U("engine_v")] = json::value::string(conversions::to_string_t(sProductVersion));
+			postData[U("sdk")] = json::value::string(U("login"));
+			postData[U("sdk_v")] = json::value::string(conversions::to_string_t(SDK_VERSION));
+
 			http_request msg(methods::POST);
 			msg.set_request_uri(conversions::to_string_t(U("")));
 			msg.set_body(postData.serialize().c_str(), U("application/json"));
-			msg.headers().add(U("engine"), U("cryengine"));
-			msg.headers().add(U("engine_v"), conversions::to_string_t(sProductVersion));
-			msg.headers().add(U("sdk"), U("login"));
-			msg.headers().add(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
+			//msg.headers().add(U("engine"), U("cryengine"));
+			//msg.headers().add(U("engine_v"), conversions::to_string_t(sProductVersion));
+			//msg.headers().add(U("sdk"), U("login"));
+			//msg.headers().add(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
 
 			auto task = client.request(msg).then([=](http_response response)
 			{
@@ -132,13 +143,18 @@ namespace Xsolla
 			json::value postData;
 			postData[U("username")] = json::value::string(conversions::to_string_t(username));
 
+			postData[U("engine")] = json::value::string(U("cryengine"));
+			postData[U("engine_v")] = json::value::string(conversions::to_string_t(sProductVersion));
+			postData[U("sdk")] = json::value::string(U("login"));
+			postData[U("sdk_v")] = json::value::string(conversions::to_string_t(SDK_VERSION));
+
 			http_request msg(methods::POST);
 			msg.set_request_uri(conversions::to_string_t(U("")));
 			msg.set_body(postData.serialize().c_str(), U("application/json"));
-			msg.headers().add(U("engine"), U("cryengine"));
-			msg.headers().add(U("engine_v"), conversions::to_string_t(sProductVersion));
-			msg.headers().add(U("sdk"), U("login"));
-			msg.headers().add(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
+			//msg.headers().add(U("engine"), U("cryengine"));
+			//msg.headers().add(U("engine_v"), conversions::to_string_t(sProductVersion));
+			//msg.headers().add(U("sdk"), U("login"));
+			//msg.headers().add(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
 
 			auto task = client.request(msg).then([=](http_response response)
 			{

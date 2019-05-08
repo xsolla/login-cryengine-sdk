@@ -29,28 +29,29 @@ namespace Xsolla
 				apiUrlStr = U("https://login.xsolla.com/api/proxy/login");
 			}
 
+			char sProductVersion[128];
+			gEnv->pSystem->GetProductVersion().ToString(sProductVersion);
+
 			uri_builder builder(apiUrlStr);
 			builder.append_query(U("projectId"), conversions::to_string_t(g_pCVars->m_pProjectID->GetString()));
 			builder.append_query(U("login_url"), conversions::to_string_t(g_pCVars->m_pCallbackURL->GetString()));
+
+			// Not best way, but used now. Need be replaced by headers later.
+			builder.append_query(U("engine"), U("cryengine"));
+			builder.append_query(U("engine_v"), conversions::to_string_t(sProductVersion));
+			builder.append_query(U("sdk"), U("login"));
+			builder.append_query(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
 
 			http_client_config config;
 			config.set_timeout(std::chrono::seconds(g_pCVars->m_http_timeout));
 
 			http_client client(builder.to_uri(), config);
 
-			char sProductVersion[128];
-			gEnv->pSystem->GetProductVersion().ToString(sProductVersion);
-
 			json::value postData;
 			postData[U("username")] = json::value::string(conversions::to_string_t(username));
 			postData[U("password")] = json::value::string(conversions::to_string_t(password));
 			postData[U("remember_me")] = json::value::boolean(rememberMe);
-			// Not best way, but used now. Need be replaced by headers later.
-			postData[U("engine")] = json::value::string(U("cryengine"));
-			postData[U("engine_v")] = json::value::string(conversions::to_string_t(sProductVersion));
-			postData[U("sdk")] = json::value::string(U("login"));
-			postData[U("sdk_v")] = json::value::string(conversions::to_string_t(SDK_VERSION));
-
+			
 			http_request msg(methods::POST);
 			msg.set_request_uri(conversions::to_string_t(U("")));
 			msg.set_body(postData.serialize().c_str(), U("application/json"));
@@ -79,27 +80,27 @@ namespace Xsolla
 				apiUrlStr = U("https://login.xsolla.com/api/proxy/registration");
 			}
 
+			char sProductVersion[128];
+			gEnv->pSystem->GetProductVersion().ToString(sProductVersion);
+
 			uri_builder builder(apiUrlStr);
 			builder.append_query(U("projectId"), conversions::to_string_t(g_pCVars->m_pProjectID->GetString()));
 			builder.append_query(U("login_url"), conversions::to_string_t(g_pCVars->m_pCallbackURL->GetString()));
+
+			builder.append_query(U("engine"), U("cryengine"));
+			builder.append_query(U("engine_v"), conversions::to_string_t(sProductVersion));
+			builder.append_query(U("sdk"), U("login"));
+			builder.append_query(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
 
 			http_client_config config;
 			config.set_timeout(std::chrono::seconds(g_pCVars->m_http_timeout));
 
 			http_client client(builder.to_uri(), config);
 
-			char sProductVersion[128];
-			gEnv->pSystem->GetProductVersion().ToString(sProductVersion);
-
 			json::value postData;
 			postData[U("username")] = json::value::string(conversions::to_string_t(username));
 			postData[U("password")] = json::value::string(conversions::to_string_t(password));
 			postData[U("email")] = json::value::string(conversions::to_string_t(email));
-
-			postData[U("engine")] = json::value::string(U("cryengine"));
-			postData[U("engine_v")] = json::value::string(conversions::to_string_t(sProductVersion));
-			postData[U("sdk")] = json::value::string(U("login"));
-			postData[U("sdk_v")] = json::value::string(conversions::to_string_t(SDK_VERSION));
 
 			http_request msg(methods::POST);
 			msg.set_request_uri(conversions::to_string_t(U("")));
@@ -128,12 +129,17 @@ namespace Xsolla
 				apiUrlStr = U("https://login.xsolla.com/api/proxy/registration/password/reset");
 			}
 
+			char sProductVersion[128];
+			gEnv->pSystem->GetProductVersion().ToString(sProductVersion);
+
 			uri_builder builder(apiUrlStr);
 			builder.append_query(U("projectId"), conversions::to_string_t(g_pCVars->m_pProjectID->GetString()));
 			builder.append_query(U("login_url"), conversions::to_string_t(g_pCVars->m_pCallbackURL->GetString()));
 
-			char sProductVersion[128];
-			gEnv->pSystem->GetProductVersion().ToString(sProductVersion);
+			builder.append_query(U("engine"), U("cryengine"));
+			builder.append_query(U("engine_v"), conversions::to_string_t(sProductVersion));
+			builder.append_query(U("sdk"), U("login"));
+			builder.append_query(U("sdk_v"), conversions::to_string_t(SDK_VERSION));
 
 			http_client_config config;
 			config.set_timeout(std::chrono::seconds(g_pCVars->m_http_timeout));
@@ -142,11 +148,6 @@ namespace Xsolla
 
 			json::value postData;
 			postData[U("username")] = json::value::string(conversions::to_string_t(username));
-
-			postData[U("engine")] = json::value::string(U("cryengine"));
-			postData[U("engine_v")] = json::value::string(conversions::to_string_t(sProductVersion));
-			postData[U("sdk")] = json::value::string(U("login"));
-			postData[U("sdk_v")] = json::value::string(conversions::to_string_t(SDK_VERSION));
 
 			http_request msg(methods::POST);
 			msg.set_request_uri(conversions::to_string_t(U("")));

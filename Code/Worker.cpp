@@ -18,6 +18,13 @@ namespace Xsolla
 	{
 		void CHttpWorker::Request_Authorization(const char * username, const char * password, bool rememberMe)
 		{
+#ifndef RELEASE
+			if (g_pCVars->m_log_level > 1)
+			{
+				Log("Request authorization. Username <%s>, password <%s>, rememberIt <%d>", username, password, rememberMe);
+			}
+#endif
+
 			string_t apiUrlStr;
 
 			if (g_pCVars->m_storageType == EStorageType::EStorage_Xsolla)
@@ -69,6 +76,13 @@ namespace Xsolla
 
 		void CHttpWorker::Request_Registration(const char * username, const char * password, const char* email)
 		{
+#ifndef RELEASE
+			if (g_pCVars->m_log_level > 1)
+			{
+				Log("Request registration. Username <%s>, password <%s>, email <%s>", username, password, email);
+			}
+#endif
+
 			string_t apiUrlStr;
 
 			if (g_pCVars->m_storageType == EStorageType::EStorage_Xsolla)
@@ -118,6 +132,13 @@ namespace Xsolla
 
 		void CHttpWorker::Request_RecoveryPassword(const char * username)
 		{
+#ifndef RELEASE
+			if (g_pCVars->m_log_level > 1)
+			{
+				Log("Request recovery password. Username <%s>", username);
+			}
+#endif 
+
 			string_t apiUrlStr;
 
 			if (g_pCVars->m_storageType == EStorageType::EStorage_Xsolla)

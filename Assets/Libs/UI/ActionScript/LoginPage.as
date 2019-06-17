@@ -3,6 +3,11 @@
 
 var isLoginPageHide = true;
 var rememberBox = false;
+var passwordShow = false;
+
+var usernameFieldActive = false;
+var passwordFialdActive = false;
+
 
 function SetRememberCheckBox(_value:Boolean) : Void
 {
@@ -40,29 +45,30 @@ function IsLoginPageHidden() : Boolean
 function LoginPageInitialize() : Void
 {
 	HideLoginPage(false);
+	_root.PageSwitcher._visible = true;
 	_root.LoginRoot.LoginButton.button_text.text = "@ui_SignIn";
 }
 
 function GetLoginEmail() : String
 {
-	var value = _root.LoginRoot.email_enter_text.text;
+	var value = _root.LoginRoot.usernameField.enter_text.text;
 	return value;
 }
 
 function SetLoginEmail(_value:String) : Void
 {
-	_root.LoginRoot.email_enter_text.text = _value;
+	_root.LoginRoot.usernameField.enter_text.text = _value;
 }
 
 function GetLoginPassword() : String
 {
-	var value = _root.LoginRoot.password_enter_text.text;
+	var value = _root.LoginRoot.passwordField.enter_text.text;
 	return value;
 }
 
 function SetLoginPassword(_value:String) : Void
 {
-	_root.LoginRoot.password_enter_text.text = _value;
+	_root.LoginRoot.passwordField.enter_text.text = _value;
 }
 
 
@@ -111,6 +117,21 @@ LoginRoot.RememberBox.onRelease = function()
 	}
 }
 
+LoginRoot.RememberBox.onRollOver = function()
+{
+    if(GetRememberCheckBox() == false)
+	{
+	    this.gotoAndStop("rollover");
+	}
+}
+
+LoginRoot.RememberBox.onRollOut = function()
+{
+	if(GetRememberCheckBox() == false)
+	{
+		SetRememberCheckBox(false);
+	}
+}
 
 LoginRoot.LoginButton.onRollOver = function()
 {
@@ -121,3 +142,19 @@ LoginRoot.LoginButton.onRollOut = function()
 {
 	this.gotoAndPlay("end");
 }
+
+LoginRoot.ShowPasswordBtn.onRelease = function()
+{
+    if(passwordShow)
+	{
+		_root.LoginRoot.passwordField.enter_text.password = true;
+		passwordShow = false;
+	}
+	else
+	{
+	    _root.LoginRoot.passwordField.enter_text.password = false;
+		passwordShow = true;
+	}
+}
+
+SetRememberCheckBox(false);

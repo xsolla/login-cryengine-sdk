@@ -7,6 +7,8 @@ function HideRecoverPage(_hide:Boolean) : Void
 {
 	_root.RecoverRoot._visible = !_hide;
 	isRegPageHide = !_hide;
+
+	_root.PageSwitcher._visible = _hide;
 	
 	HideErrorBox(); 
 	HideSuccessBox();
@@ -27,7 +29,7 @@ RecoverPageInitialize();
 
 function GetRecoverUsername() : String
 {
-	var value = _root.RecoverRoot.username_enter_text.text;
+	var value = _root.RecoverRoot.usernameField.enter_text.text;
 	return value;
 }
 

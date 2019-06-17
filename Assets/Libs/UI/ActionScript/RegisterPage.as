@@ -3,6 +3,8 @@
 
 var isRegPageHide = true;
 var agreeBox = false;
+var passwordShow = false;
+
 
 function SetRegisterCheckBox(_value:Boolean) : Void
 {
@@ -40,25 +42,8 @@ function IsRegisterPageHidden() : Boolean
 function RegisterPageInitialize() : Void
 {
 	HideRegisterPage(true);
+	_root.PageSwitcher._visible = true;
 	_root.RegisterRoot.RegisterButton.button_text.text = "@ui_CreateAccount";
-}
-
-function GetRegisterUsername() : String
-{
-	var value = _root.RegisterRoot.username_enter_text.text;
-	return value;
-}
-
-function GetRegisterEmail() : String
-{
-	var value = _root.RegisterRoot.email_enter_text.text;
-	return value;
-}
-
-function GetRegisterPassword() : String
-{
-	var value = _root.RegisterRoot.password_enter_text.text;
-	return value;
 }
 
 RegisterPageInitialize();
@@ -90,6 +75,22 @@ RegisterRoot.AgreeBox.onRelease = function()
 	}
 }
 
+RegisterRoot.AgreeBox.onRollOver = function()
+{
+    if(GetRegisterCheckBox() == false)
+	{
+	    this.gotoAndStop("rollover");
+	}
+}
+
+RegisterRoot.AgreeBox.onRollOut = function()
+{
+	if(GetRegisterCheckBox() == false)
+	{
+		SetRegisterCheckBox(false);
+	}
+}
+
 RegisterRoot.RegisterButton.onRelease = function()
 {
 	if(GetRegisterCheckBox())
@@ -98,10 +99,10 @@ RegisterRoot.RegisterButton.onRelease = function()
 		HideSuccessBox();
 	
 		var args:Array = new Array();
-		args.push(GetRegisterUsername());
-		args.push(GetRegisterPassword());
-		args.push(GetRegisterEmail());
-	
+		args.push(_root.RegisterRoot.userNameField.enter_text.text);
+		args.push(_root.RegisterRoot.passwordField.enter_text.text);
+		args.push(_root.RegisterRoot.emailField.enter_text.text);
+
 		fscommand("OnCreateButton", args);
 	}
 	else
@@ -119,3 +120,19 @@ RegisterRoot.RegisterButton.onRollOut = function()
 {
 	this.gotoAndPlay("end");
 }
+
+RegisterRoot.ShowPasswordBtn.onRelease = function()
+{
+    if(passwordShow)
+	{
+		_root.RegisterRoot.passwordField.enter_text.password = true;
+		passwordShow = false;
+	}
+	else
+	{
+	    _root.RegisterRoot.passwordField.enter_text.password = false;
+		passwordShow = true;
+	}
+}
+
+SetRegisterCheckBox(false);

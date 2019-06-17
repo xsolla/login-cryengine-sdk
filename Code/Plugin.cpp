@@ -4,6 +4,9 @@
 #include "StdAfx.h"
 #include "Plugin.h"
 
+#ifdef JWT_VALIDATION_ENABLED
+#include <jwt-cpp/jwt.h>
+#endif
 
 #include <CryCore/Platform/platform_impl.inl>
 
@@ -103,6 +106,49 @@ namespace Xsolla
 		void CXsollaLoginPlugin::Request_PasswordRecovery(const char * username)
 		{
 			m_pHttpWorker->Request_RecoveryPassword(username);
+		}
+
+		bool CXsollaLoginPlugin::ValidateToken(const char * token, const char * key)
+		{
+#ifdef JWT_VALIDATION_ENABLED
+			jwt::verifier<jwt::default_clock> verify = jwt::verify()
+				.allow_algorithm(jwt::algorithm::hs256{ key });
+			
+			try
+			{
+				jwt::decoded_jwt decoded_token = jwt::decode(std::string(token));
+			
+				for (auto& e : decoded_token.get_payload_claims())
+				{
+					Log("%s = %s", e.first.c_str(), e.second.to_json().to_str().c_str());
+				}
+			
+				try
+				{
+					verify.verify(decoded_token);
+				}
+				catch (const jwt::token_verification_exception& ex)
+				{
+					LogError("Verification failed <%s>!", ex.what());
+					return false;
+				}
+			}
+			catch (const std::invalid_argument&)
+			{
+				LogError("Token is not in correct format");
+				return false;
+			}
+			catch (const std::runtime_error&)
+			{
+				LogError("Base64 decoding failed or invalid json!");
+				return false;
+			}
+			
+			return true;
+#else 
+			LogError("JWT validation disabled - enable it before using!");
+			return false;
+#endif
 		}
 
 		void CXsollaLoginPlugin::Notify_AuthorizationSuccess(const char* token)

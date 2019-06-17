@@ -42,6 +42,8 @@ namespace Xsolla
 			virtual void                       Request_Authorization(const char* username, const char* password, bool rememberMe) override;
 			virtual void                       Request_Registration(const char* username, const char* password, const char* email) override;
 			virtual void                       Request_PasswordRecovery(const char* username) override;
+
+			virtual bool                       ValidateToken(const char * token, const char* key) override;
 			// ~IXsollaLoginPlugin
 		public:
 			void                               Notify_AuthorizationSuccess(const char* token);

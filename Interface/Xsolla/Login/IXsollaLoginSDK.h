@@ -34,6 +34,8 @@ namespace Xsolla
 			virtual void Request_Authorization(const char* username, const char* password, bool rememberMe) = 0;
 			virtual void Request_Registration(const char* username, const char* password, const char* email) = 0;
 			virtual void Request_PasswordRecovery(const char* username) = 0;
+
+			virtual bool ValidateToken(const char * token, const char* key) = 0;
 		};
 	}
 }

@@ -17,5 +17,25 @@ ${CPPRESTSDK_INCLUDES})
 target_link_libraries(${THIS_PROJECT} PRIVATE ${CPPRESTSDK_LIBS}/Release/cpprest140_2_9.lib)
 # ~CPPRESTSDK
 
+# JWT validation setup
+option(OPTION_JWT_VALIDATION "Enable jwt validation" OFF)
+
+if(OPTION_JWT_VALIDATION)
+	add_definitions(-DJWT_VALIDATION_ENABLED)
+	
+	# OpenSSL - Requered by Jwt-Cpp
+	target_link_libraries(${THIS_PROJECT} PRIVATE ${SDKS}/openssl/lib/VC/libcrypto64MD.lib) 
+	set(OPENSSL_INCLUDES ${SDKS}/openssl/include)
+	# ~OpenSSL
+	
+	# JWT-CPP
+	set(JWTCPP_INCLUDES ${SDKS}/jwt-cpp/includes)
+	# ~JWT-CPP
+	
+	include_directories(
+	${JWTCPP_INCLUDES}
+	${OPENSSL_INCLUDES})
+endif()
+
 set_solution_startup_target(${THIS_PROJECT})
 #END-CUSTOM

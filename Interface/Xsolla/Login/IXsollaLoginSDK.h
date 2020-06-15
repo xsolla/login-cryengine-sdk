@@ -1,4 +1,4 @@
-// Copyright (C) 2006 — 2019 Xsolla Inc. All rights reserved.
+// Copyright (C) 2006 — 2020 Xsolla Inc. All rights reserved.
 // Created by AfroStalin
 
 #pragma once

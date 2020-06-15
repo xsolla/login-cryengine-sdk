@@ -16,13 +16,8 @@
 		]
 	},
 	"require": {
-		"engine": "engine-5.5",
+		"engine": "engine-5.6",
 		"plugins": [
-			{
-				"type": "EPluginType::Native",
-				"path": "CryGamePlatform",
-				"platforms": [ "PS4" ]
-			}
 		]
 	},
 	"console_variables": [

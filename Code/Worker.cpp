@@ -1,11 +1,15 @@
-// Copyright (C) 2006 — 2019 Xsolla Inc. All rights reserved.
+// Copyright (C) 2006 — 2020 Xsolla Inc. All rights reserved.
 // Created by AfroStalin
 
 #include "StdAfx.h"
 #include "Worker.h"
 
+#include "CrySystem/CryVersion.h"
+
 #pragma warning( disable : 4266 ) // Json warning disable
 #include <cpprest/http_client.h>
+
+#include <codecvt>
 
 using namespace utility;
 using namespace web;
@@ -192,7 +196,7 @@ namespace Xsolla
 #endif
 			if (code == 200)
 			{
-				auto jsonTask = response.extract_json().then([=](json::value json)
+				response.extract_json().then([=](json::value json)
 				{
 					json::value tokenValue = json[U("login_url")];
 
@@ -203,9 +207,9 @@ namespace Xsolla
 						start += 6;
 						size_t end = tokenRawString.find('&');
 
-						string_t clearTokenT = tokenRawString.substr(start, end - start);
-						std::string clearToken = std::string(clearTokenT.begin(), clearTokenT.end()).c_str();
-
+						const string_t clearTokenT = tokenRawString.substr(start, end - start);
+						const std::string clearToken = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(clearTokenT);
+						
 						g_pPlugin->Notify_AuthorizationSuccess(clearToken.c_str());
 					}
 
@@ -213,7 +217,7 @@ namespace Xsolla
 			}
 			else
 			{
-				auto jsonTask = response.extract_json().then([=](json::value json)
+				response.extract_json().then([=](json::value json)
 				{
 					json::value errorValue = json[U("error")];
 
@@ -226,8 +230,8 @@ namespace Xsolla
 
 						if (!errorCodeValue.is_null() && errorCodeValue.is_string())
 						{
-							string_t rawErrorStr = errorCodeValue.as_string();
-							std::string stdRawErrorStr = std::string(rawErrorStr.begin(), rawErrorStr.end());
+							const string_t rawErrorStr = errorCodeValue.as_string();	
+							const std::string stdRawErrorStr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(rawErrorStr);
 
 							if (stdRawErrorStr == "003-001")
 							{
@@ -252,8 +256,8 @@ namespace Xsolla
 
 							if (!errorDescriptionValue.is_null() && errorDescriptionValue.is_string())
 							{
-								string_t rawDescStr = errorDescriptionValue.as_string();
-								errorStr = std::string(rawDescStr.begin(), rawDescStr.end()).c_str();
+								const string_t rawDescStr = errorDescriptionValue.as_string();
+								errorStr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(rawDescStr).c_str();
 								isRawError = true;
 							}
 						}
@@ -267,7 +271,7 @@ namespace Xsolla
 			if (g_pCVars->m_log_level > 0)
 			{
 				LogDebug("Response status code : %u", code);
-				LogDebug("Response raw : %s ", std::string(rawResponseStr.begin(), rawResponseStr.end()).c_str());
+				LogDebug("Response raw : %s ", std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(rawResponseStr).c_str());
 			}
 #endif
 		}
@@ -285,7 +289,7 @@ namespace Xsolla
 			}
 			else
 			{
-				auto jsonTask = response.extract_json().then([=](json::value json)
+				response.extract_json().then([=](json::value json)
 				{
 					json::value errorValue = json[U("error")];
 
@@ -298,8 +302,8 @@ namespace Xsolla
 		
 						if (!errorCodeValue.is_null() && errorCodeValue.is_string())
 						{
-							string_t rawErrorStr = errorCodeValue.as_string();
-							std::string stdRawErrorStr = std::string(rawErrorStr.begin(), rawErrorStr.end());
+							const string_t rawErrorStr = errorCodeValue.as_string();
+							const std::string stdRawErrorStr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(rawResponseStr);
 
 							if (stdRawErrorStr == "003-003")
 							{
@@ -320,8 +324,8 @@ namespace Xsolla
 
 							if (!errorDescriptionValue.is_null() && errorDescriptionValue.is_string())
 							{
-								string_t rawDescStr = errorDescriptionValue.as_string();
-								errorStr = std::string(rawDescStr.begin(), rawDescStr.end()).c_str();
+								const string_t rawDescStr = errorDescriptionValue.as_string();
+								errorStr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(rawDescStr).c_str();
 								isRawError = true;
 							}
 						}
@@ -335,7 +339,7 @@ namespace Xsolla
 			if (g_pCVars->m_log_level > 0)
 			{
 				LogDebug("Response status code : %u", code);
-				LogDebug("Response raw : %s ", std::string(rawResponseStr.begin(), rawResponseStr.end()).c_str());
+				LogDebug("Response raw : %s ", std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(rawResponseStr).c_str());
 			}
 #endif
 		}
@@ -353,7 +357,7 @@ namespace Xsolla
 			}
 			else
 			{
-				auto jsonTask = response.extract_json().then([=](json::value json)
+				response.extract_json().then([=](json::value json)
 				{
 					json::value errorValue = json[U("error")];
 
@@ -366,8 +370,8 @@ namespace Xsolla
 
 						if (!errorCodeValue.is_null() && errorCodeValue.is_string())
 						{
-							string_t rawErrorStr = errorCodeValue.as_string();
-							errorStr.Format("@ui_error_%s", std::string(rawErrorStr.begin(), rawErrorStr.end()).c_str());
+							const string_t rawErrorStr = errorCodeValue.as_string();
+							errorStr.Format("@ui_error_%s", std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(rawErrorStr).c_str());
 						}
 						else if (!errorCodeValue.is_null() && errorCodeValue.is_integer())
 						{
@@ -375,8 +379,8 @@ namespace Xsolla
 
 							if (!errorDescriptionValue.is_null() && errorDescriptionValue.is_string())
 							{
-								string_t rawDescStr = errorDescriptionValue.as_string();
-								errorStr = std::string(rawDescStr.begin(), rawDescStr.end()).c_str();
+								const string_t rawDescStr = errorDescriptionValue.as_string();
+								errorStr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(rawDescStr).c_str();
 								isRawError = true;
 							}
 						}
@@ -391,7 +395,7 @@ namespace Xsolla
 			if (g_pCVars->m_log_level > 0)
 			{
 				LogDebug("Response status code : %u", code);
-				LogDebug("Response raw : %s ", std::string(rawResponseStr.begin(), rawResponseStr.end()).c_str());
+				LogDebug("Response raw : %s ", std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(rawResponseStr).c_str());
 			}
 #endif
 		}

@@ -14,7 +14,7 @@ ${INTERFACE_INCLUDES}
 ${CPPRESTSDK_INCLUDES})
 
 # CPPRESTSDK
-target_link_libraries(${THIS_PROJECT} PRIVATE ${CPPRESTSDK_LIBS}/Release/cpprest140_2_9.lib)
+target_link_libraries(${THIS_PROJECT} PRIVATE ${CPPRESTSDK_LIBS}/Release/cpprest_2_10.lib)
 # ~CPPRESTSDK
 
 # JWT validation setup

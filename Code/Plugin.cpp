@@ -1,4 +1,4 @@
-// Copyright (C) 2006 — 2019 Xsolla Inc. All rights reserved.
+// Copyright (C) 2006 — 2020 Xsolla Inc. All rights reserved.
 // Created by AfroStalin
 
 #include "StdAfx.h"
@@ -81,7 +81,7 @@ namespace Xsolla
 
 		void CXsollaLoginPlugin::Request_Authorization(const char * username, const char * password, bool rememberMe)
 		{
-			if (string(password).size() < 6)
+			if (std::strlen(username) < 6)
 			{
 				Notify_AuthorizationError("@ui_error_short_password", 0, false);
 			}
@@ -93,7 +93,7 @@ namespace Xsolla
 
 		void CXsollaLoginPlugin::Request_Registration(const char * username, const char * password, const char* email)
 		{
-			if (string(password).size() < 6)
+			if (std::strlen(password) < 6)
 			{
 				Notify_RegistrationError("@ui_error_short_password", 0, false);
 			}

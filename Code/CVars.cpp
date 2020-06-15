@@ -1,8 +1,9 @@
-// Copyright (C) 2006 — 2019 Xsolla Inc. All rights reserved.
+// Copyright (C) 2006 — 2020 Xsolla Inc. All rights reserved.
 // Created by AfroStalin
 
 #include "StdAfx.h"
 #include "CVars.h"
+#include "CrySystem/ConsoleRegistration.h"
 
 namespace Xsolla
 {
@@ -10,16 +11,19 @@ namespace Xsolla
 	{
 		void CCvars::Register()
 		{
-			m_pProjectID = REGISTER_STRING("xl_login_project_id", "", VF_CHEAT | VF_INVISIBLE, "Project ID");
-			m_pCallbackURL = REGISTER_STRING("xl_login_callback_url", "https://login.xsolla.com/api/blank", VF_CHEAT | VF_INVISIBLE, "Callback url");
+			m_pProjectID = ConsoleRegistrationHelper::RegisterString("xl_login_project_id", "", VF_CHEAT, "Project ID");
+			m_pCallbackURL = ConsoleRegistrationHelper::RegisterString("xl_login_callback_url", "https://login.xsolla.com/api/blank", VF_CHEAT | VF_CONST_CVAR, "Callback url");
 
-			REGISTER_CVAR2("xl_login_http_timeout", &m_http_timeout, 5, VF_NULL, "Http timeout in seconds");
-			REGISTER_CVAR2("xl_login_log_level", &m_log_level, 0, VF_CHEAT | VF_INVISIBLE, "Log level (0-2)");
-			REGISTER_CVAR2("xl_login_storage_type", &m_storageType, 0, VF_CHEAT | VF_INVISIBLE, "Storage type (0 - Xsolla, 1 - Custom)");
+			ConsoleRegistrationHelper::Register("xl_login_http_timeout", &m_http_timeout, 5, VF_CHEAT, "Http timeout in seconds");
+			ConsoleRegistrationHelper::Register("xl_login_log_level", &m_log_level, 0, VF_CHEAT | VF_INVISIBLE, "Log level (0-2)");
+			ConsoleRegistrationHelper::Register("xl_login_storage_type", &m_storageType, 0, VF_CHEAT | VF_INVISIBLE, "Storage type (0 - Xsolla, 1 - Custom)");
 		}
 
 		void CCvars::Unregister()
 		{
+			if (!gEnv->pConsole)
+				return;
+
 			gEnv->pConsole->UnregisterVariable("xl_login_project_id", true);
 			gEnv->pConsole->UnregisterVariable("xl_login_callback_url", true);
 
